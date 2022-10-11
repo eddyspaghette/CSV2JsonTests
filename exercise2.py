@@ -11,6 +11,9 @@ test_csv_files_path = listdir(csv_file_directory)
 test_expected_output_path = listdir(expected_output_directory)
 
 
+empty_header_tests = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test37', 'test38', 'test39', 'test40', 'test41', 'test42', 'test55', 'test56', 'test57', 'test58', 'test59', 'test60']
+
+sorted_tests = ['test1', 'test2', 'test7', 'test8', 'test13', 'test14', 'test19', 'test20', 'test25', 'test26', 'test37', 'test38', 'test43', 'test44', 'test49', 'test50','test55', 'test56', 'test61', 'test62', 'test67', 'test68']
 
 def converter_file_name(file_name):
     return converter_directory + file_name + 'converter' + '.json'
@@ -25,8 +28,17 @@ def create_converter_files():
         csv_file = csv_file_directory + file
         new_file = converter_file_name(file_name)
         with open(csv_file) as r, open(new_file, 'w') as w:
-            convert(r, w)
-            print(f"Converted {csv_file} to {new_file}")
+            if file_name in empty_header_tests and file_name in sorted_tests:
+                convert(r, w, custom_headers=[], sorted_keys=True)
+                print(f"Converted {csv_file} to {new_file} with sort & empty headers")
+            elif file_name in empty_header_tests:
+                convert(r, w, custom_headers=[])
+                print(f"Converted {csv_file} to {new_file} with empty headers")
+            elif file_name in sorted_tests:
+                convert(r, w, sorted_keys=True)
+            else:
+                convert(r, w)
+                print(f"Converted {csv_file} to {new_file}")
 
 
 # generate tuples of pairs for json files (input, output)
