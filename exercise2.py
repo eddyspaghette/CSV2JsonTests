@@ -28,18 +28,21 @@ def create_converter_files():
         csv_file = csv_file_directory + file
         new_file = converter_file_name(file_name)
         with open(csv_file) as r, open(new_file, 'w') as w:
-            if file_name in empty_header_tests and file_name in sorted_tests:
-                convert(r, w, custom_headers=[], sorted_keys=True)
-                print(f"Converted {csv_file} to {new_file} with sort & empty headers")
-            elif file_name in empty_header_tests:
-                convert(r, w, custom_headers=[])
-                print(f"Converted {csv_file} to {new_file} with empty headers")
-            elif file_name in sorted_tests:
-                convert(r, w, sorted_keys=True)
-                print(f"Converted {csv_file} to {new_file} sorted")
-            else:
-                convert(r, w)
-                print(f"Converted {csv_file} to {new_file}")
+            try:
+                if file_name in empty_header_tests and file_name in sorted_tests:
+                    convert(r, w, custom_headers=[], sort_keys=True)
+                    print(f"Converted {csv_file} to {new_file} with sort & empty headers")
+                elif file_name in empty_header_tests:
+                    convert(r, w, custom_headers=[])
+                    print(f"Converted {csv_file} to {new_file} with empty headers")
+                elif file_name in sorted_tests:
+                    convert(r, w, sort_keys=True)
+                    print(f"Converted {csv_file} to {new_file} sorted")
+                else:
+                    convert(r, w)
+                    print(f"Converted {csv_file} to {new_file}")
+            except Exception as e:
+                print(f"Sorting failed for {file_name}", e)
 
 
 # generate tuples of pairs for json files (input, output)
