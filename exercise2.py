@@ -36,6 +36,7 @@ def create_converter_files():
                 print(f"Converted {csv_file} to {new_file} with empty headers")
             elif file_name in sorted_tests:
                 convert(r, w, sorted_keys=True)
+                print(f"Converted {csv_file} to {new_file} sorted")
             else:
                 convert(r, w)
                 print(f"Converted {csv_file} to {new_file}")
