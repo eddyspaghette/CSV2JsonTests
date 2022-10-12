@@ -27,7 +27,7 @@ def create_converter_files():
         file_name = file_name_without_extension(file)
         csv_file = csv_file_directory + file
         new_file = converter_file_name(file_name)
-        with open(csv_file) as r, open(new_file, 'w') as w:
+        with open(csv_file) as r, open(new_file, 'w', encoding='utf-8') as w:
             try:
                 if file_name in empty_header_tests and file_name in sorted_tests:
                     convert(r, w, custom_headers=[], sort_keys=True)
@@ -42,7 +42,7 @@ def create_converter_files():
                     convert(r, w)
                     print(f"Converted {csv_file} to {new_file}")
             except Exception as e:
-                print(f"Sorting failed for {file_name}", e)
+                print(f"Sorting failed for ${file_name}", e)
 
 
 # generate tuples of pairs for json files (input, output)
@@ -57,7 +57,7 @@ def generate_pairs():
 
 @pytest.mark.parametrize("test_input, expected", generate_pairs())
 def test_json_files(test_input, expected):
-    with open(test_input, 'r') as j1, open(expected, 'r') as j2:
+    with open(test_input, encoding='utf-8') as j1, open(expected, encoding='utf-8') as j2:
         assert json.load(j1) == json.load(j2)
 
 
